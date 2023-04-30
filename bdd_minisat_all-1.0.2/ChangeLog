@@ -1,0 +1,90 @@
+cnf2obdd or bdd_minisat_all v1.0.2 Released Apr. 1st 2018
+========================================
+* changed the type of cpu_time of printStats from int to unsigned long, to
+void to wrap-around, and the type of cast inside printStats from float to
+double.
+
+cnf2obdd or bdd_minisat_all v1.0.1 (Released 27th Oct. 2016)
+========================================
+* modified signal handler.
+
+cnf2obdd or bdd_minisat_all v1.0.0 (Released 30th Sep. 2015)
+========================================
+* Introduced another code name to place this software as a member of minisat_all solver family.
+cnf2obdd may be used to put more emphasis on a CNF-OBDD compiler aspect, which
+supports rich operations for postprocessing, and bdd_minisat_all in turn on an
+AllSAT solver aspect, which simply generates all solutions, a farmiliar format
+to wider users.
+* Accordingly, version number was reset.
+* Supported the two types of solvers, a blocking solver and a non-blocking
+solver, as a base solver on which formula-BDD caching is embedded.
+Note: the older versions were all based on a blocking solver.
+* Supported solution counting with GMP library.
+* Supported interruption signal handling.
+* Added functionality of refreshing OBDD, by which memory usage can be
+controllable. This can be available only when non-blocking solver is selected.
+* Added recursive implementation of trie.
+
+cnf2obdd v1.2.2 (Released 23rd Jun. 2015)
+========================================
+* Added a license description (LICENSE.cnf2obdd).
+
+cnf2obdd v1.2.1 (Released 14th May 2015)
+========================================
+* malloc.h is no longer included because it is a non-standard linux-specific header, by which compilation perhaps succeeds in MacOSX.
+* For simplicity, CUDD package was removed but still maintaining capability of reduction by just adding CUDD package and uncomment some macro definitions in Makefile.
+
+cnf2obdd v1.2.0 (Released 26th Apr. 2015)
+========================================
+* Fixed a bug in the decompression part of version 1.1.0.
+  An output file is still in DIMACS CNF format, but for simplicity a problem line is no longer added!
+* Removed the function that decomposes BDDs into total satisfying assignments.
+
+cnf2obdd v1.1.0 (Released 16th Apr. 2015)
+========================================
+* Added a function that decomposes BDD into a list of solutions.
+
+cnf2obdd v1.0.0 (Released 15 Dec. 2014)
+========================================
+
+* Software that computes the following problem , called BDD Compilation, is implemented on top of MiniSat-C v1.14.1:
+  INPUT:  a CNF (given in DIMACS CNF format) of a Boolean function f
+  OUTPUT: OBDD that represents f.
+* Installation
+  Executing make in the directory cudd-2.5.0 and then in the top directory.
+  See cudd-2.5.0/README if you fail to compile CUDD.  
+* Usage
+  $ cnf2obdd in.dat
+* You can change an algorithm by modifying the MYFLAGS defined in Makefile.
+  NOSOLVER:     Implementation without SAT solver (Not recommended: experimental use only).
+  LAZY:         Cache operations are reduced (Recommended).
+  FINER:        Alternative cutset caching is used (Optional).
+                If neither LAZY nor FINER is defined, then the OBDD compilation phase corresponds to the original Huang-Darwiche method.
+  REDUCTION:    Performed upto reduction phase (Optional).
+* Reduction phase is performed using CUDD: CU Decision Diagram Package Release 2.5.0.
+  See cudd-2.5.0/README and cudd-2.5.0/LICENSE.
+* If you want to manipulate a compiled BDD, define REDUCTION and write code on the bottom of main.c.
+  See http://vlsi.colorado.edu/~fabio/CUDD/ for details of CUDD.
+* Contact
+  Takahisa Toda <toda.takahisa(at)gmail.com>
+  Graduate School of Information Systems, the University of Electro-Communications
+  1-5-1 Chofugaoka, Chofu, Tokyo 182-8585, Japan
+* Reference
+  T. Toda, K. Tsuda, "BDD Construction for All Solutions SAT and Efficient Caching Mechanism", Track on Constraint Solving and Programming and Knowledge Representation and Reasoning (CSP-KR) part of the 30th Annual ACM Symposium on Applied Computing, 2015.
+  J. Huang, A. Darwiche, "Using DPLL for efficient OBDD construction", In Proceedings of the 7th international conference on Theory and Applications of Satisfiability Testing, pages 157--172, 2005.
+
+MiniSat-C v1.14.1
+========================================
+
+* Fixed some serious bugs. 
+* Tweaked to be Visual Studio friendly (by Alan Mishchenko).
+  This disabled reading of gzipped DIMACS files and signal handling, but none
+  of these features are essential (and easy to re-enable, if wanted).
+
+MiniSat-C v1.14
+========================================
+
+Ok, we get it. You hate C++. You hate templates. We agree; C++ is a
+seriously messed up language. Although we are more pragmatic about the
+quirks and maldesigns in C++, we sympathize with you. So here is a
+pure C version of MiniSat, put together by Niklas Sörensson.

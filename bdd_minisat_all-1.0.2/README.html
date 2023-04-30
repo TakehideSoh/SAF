@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>CNF2OBDD or BDD_MINISAT_ALL</title>
+    <link rel="stylesheet" href="http://www.sd.is.uec.ac.jp/toda/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets V1.75.2" />
+  </head>
+  <body>
+    <div xml:lang="en" class="article" title="CNF2OBDD or BDD_MINISAT_ALL" lang="en">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h2 class="title"><a id="idp22560"></a>CNF2OBDD or BDD_MINISAT_ALL</h2>
+          </div>
+          <div>
+            <div class="author">
+              <h3 class="author">
+                <span class="firstname">Takahisa</span>
+                <span class="surname">Toda</span>
+              </h3>
+              <div class="affiliation">
+                <div class="address">
+                  <p><br />
+	  <code class="email">&lt;<a class="email" href="mailto:toda.takahisa(at)gmail.com">toda.takahisa(at)gmail.com</a>&gt;</code><br />
+	</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+<p><a href="http://www.sd.is.uec.ac.jp/toda/index.html" style="float:right;">Back to Top Page.</a></p>            <p class="pubdate">
+      Last update: 2015-9-30
+    </p>
+          </div>
+        </div>
+        <hr />
+      </div>
+      <div class="sect1" title="1. Description">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both"><a id="definition"></a>1. Description</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+        A CNF to OBDD compiler or a formula-BDD caching AllSAT solver, implemented on top of MiniSat-C v1.14.1, is presented.
+        This software has two names because of a double meaning.
+        It may be called <span class="emphasis"><em>cnf2obdd</em></span> to put more emphasis on a CNF to OBDD compiler aspect, which supports rich operations for postprocessing, and it also may be called <span class="emphasis"><em>bdd_minisat_all</em></span> on an AllSAT solver aspect, which simply generates all solutions, a familiar format to wider users.
+
+    </p>
+      </div>
+      <div class="sect1" title="2. DOWNLOAD">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both"><a id="download"></a>2. DOWNLOAD</h2>
+            </div>
+          </div>
+        </div>
+        <div class="itemizedlist">
+          <ul class="itemizedlist" type="disc">
+            <li class="listitem">
+	        Latest version: <a class="ulink" href="bdd_minisat_all-1.0.0.tar.gz" target="_top">bdd_minisat_all version 1.0.0</a>, released on 30th Sep., 2015.
+	        </li>
+          </ul>
+        </div>
+      </div>
+      <div class="sect1" title="3. FILE FORMAT">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both"><a id="format"></a>3. FILE FORMAT</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+      Input boolean formula should be in DIMACS CNF format.
+      For details of DIMACS CNF format and benchmark problems, see <a class="ulink" href="http://www.cs.ubc.ca/~hoos/SATLIB/benchm.html" target="_top">SATLIB</a>.
+    </p>
+      </div>
+      <div class="sect1" title="4. HOW TO COMPILE">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both"><a id="compile"></a>4. HOW TO COMPILE</h2>
+            </div>
+          </div>
+        </div>
+        <p>If no option is given, standard mode is selected.</p>
+        <pre class="screen">
+
+$ tar zxvf bdd_minisat_all-1.0.0.tar.gz
+$ cd bdd_minisat_all-1.0.0
+$ make [options] 
+list of options
+s   standard: debug information used by debugger is generated at compilation time, and detailed solver status is reported at runtime.
+p   profile:  in addition to standard setting, profile information used by gprof is generated at compilation time and several tests are performed at runtime.
+d   debug:    in addition to standard setting, several tests are performed at runtime and no optimization is applied.
+r   release:  release version, compiled with dynamic link
+rs  static:   release version, compiled with static link
+clean   executable files, object files, etc are removed.
+
+      </pre>
+      </div>
+      <div class="sect1" title="5. USAGE">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both"><a id="usage"></a>5. USAGE</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    If an output file is specified, all satisfying assignments to a CNF are generated in DIMACS CNF format without problem line. 
+    <span class="emphasis"><em>Notice: there may be as many number of assignments as can not be stored in a disk space.</em></span>
+    If you want to use timelimit or status report functionality, define TIMELIMIT in <code class="filename">Makefile</code>.
+    If you want to use refresh option, define REFRESHOBDD in <code class="filename">Makefile</code>.
+    </p>
+        <pre class="screen">
+
+Usage:  ./bdd_minisat_all [options] input-file [output-file]
+-n&lt;int&gt; maximum number of obdd nodes: if exceeded, obdd is refreshed
+
+    </pre>
+        <p>
+    Since variable orderings significantly affect solver's performance, we recommend that users in advance execute the software <a class="ulink" href="http://www.aloul.net/Tools/mince/" target="_top">MINCE</a> to determine a good variable ordering.
+    </p>
+      </div>
+      <div class="sect1" title="6. MACRO"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="macro"></a>6. MACRO</h2></div></div></div>
+    
+    Program behavior can be controlled by defining or not defining the following macros in <code class="filename">Makefile</code>.
+    <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+        CUTSETCACHE:        Cutset is selected as formula-BDD caching. If this is not defined, separator is selected.
+      </li><li class="listitem">
+        LAZY:               Cache operations are reduced (Recommended).
+      </li></ul></div>
+    Select one of the two base solver types: a blocking solver or a non-blocking solver.
+    <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+        NONBLOCKING         non-blocking procedure is selected as a base solver. If this is not defined, blocking procedure is selected. For options of non-blocking solvers, see <a class="ulink" href="nbc_minisat_all.html" target="_top">nbc_minisat_all</a>.
+      </li><li class="listitem">
+        REFRESH:            refresh option in command line is enabled. If the number of BDD nodes exceeds a specified threshold, all solutions are dumpted to a file (if output file is specified in command line), all caches are refreshed, and search is continued.
+      </li></ul></div>
+   
+    Other options are as follows. 
+    <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+        TRIE_RECURSION:     Recursive version of trie is used. If this is not defined, iterative version is used.
+      </li><li class="listitem">
+        REDUCTION:          Reduction of compiled OBDD into fully reduced one is performed using CUDD library (Optional). To do this, obtain CUDD library and modify Makefile.
+      </li><li class="listitem">
+        GMP:                GNU MP bignum library is used to count solutions. To do this, obtain GMP library and modify Makefile.
+      </li></ul></div>
+  </div>
+      <div class="sect1" title="7. LICENSE">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both"><a id="license"></a>7. LICENSE</h2>
+            </div>
+          </div>
+        </div>
+        <p>bdd_minisat_all is implemented by modifying MiniSat-C_v1.14.1. Please confirm the license file included in this software.</p>
+      </div>
+      <div class="sect1" title="8. NOTICE">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both"><a id="notice"></a>8. NOTICE</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    A huge number of assignments may be generated and <span class="emphasis"><em>disk space may be exhausted</em></span>. To avoid disk overflow, take measure such as using <span class="command"><strong>ulimit</strong></span> command.
+    </p>
+      </div>
+      <div class="sect1" title="9. REFERENCES">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both"><a id="references"></a>9. REFERENCES</h2>
+            </div>
+          </div>
+        </div>
+        <div class="itemizedlist">
+          <ul class="itemizedlist" type="disc">
+            <li class="listitem">
+	  N. Eén, N. Sörensson : <a class="ulink" href="http://minisat.se/" target="_top">MiniSat Page</a>: MiniSat-C_v1.14.1, accessed on 15 Dec. 2014.
+	</li>
+            <li class="listitem">
+	  N. Eén, N. Sörensson : <a class="ulink" href="http://dx.doi.org/10.1007/978-3-540-24605-3_37" target="_top">An Extensible SAT-solver</a>, In Proceedings of the 6th international conference of Theory and Applications of Satisfiability Testing, pages 502--518, 2004.
+	</li>
+            <li class="listitem">
+        Grumberg, Orna and Schuster, Assaf and Yadgar, Avi: <a class="ulink" href="http://dx.doi.org/10.1007/978-3-540-30494-4_20" target="_top">Memory Efficient All-Solutions SAT Solver and Its Application for Reachability Analysis</a>, Formal Methods in Computer-Aided Design, LNCS Vol.3312, pp.275-289, 2004.
+	</li>
+            <li class="listitem">
+Gebser, Martin and Kaufmann, Benjamin and Neumann, Andr{\'e} and Schaub, Torsten: <a class="ulink" href="http://dl.acm.org/citation.cfm?id=1758481.1758496" target="_top">Conflict-driven Answer Set Enumeration</a>, in Proceedings of the 9th International Conference on Logic Programming and Nonmonotonic Reasoning, pp.136--148, 2007.
+	</li>
+            <li class="listitem">
+Morgado, A. and Marques-Silva, J.: <a class="ulink" href="http://dx.doi.org/10.1109/ICTAI.2005.69" target="_top">Good learning and implicit model enumeration</a>, In Proceedings of  17th IEEE International Conference on Tools with Artificial Intelligence, 2005. ICTAI 05.
+    </li>
+            <li class="listitem">
+Yinlei Yu and Subramanyan, P. and Tsiskaridze, N. and Malik, S.: <a class="ulink" href="http://dx.doi.org/10.1109/VLSID.2014.22" target="_top">All-SAT Using Minimal Blocking Clauses</a>, In Proceedings of 27th International Conference on VLSI Design and 2014 13th International Conference on Embedded Systems, 2014, pp.86-91.
+    </li>
+            <li class="listitem">
+McMillan, KenL.: <a class="ulink" href="http://dx.doi.org/10.1007/3-540-45657-0_19" target="_top">Applying SAT Methods in Unbounded Symbolic Model Checking</a>, Computer Aided Verification, LNCS Vol.2404, pp.250-264. 2002.
+    </li>
+            <li class="listitem">
+Weinan Zhao and Weimin Wu: <a class="ulink" href="http://dx.doi.org/10.1109/CADCG.2009.5246850" target="_top">ASIG: An all-solution SAT solver for CNF formulas</a>, In Proceedings of 11th IEEE International Conference on Computer-Aided Design and Computer Graphics, 2009. CAD/Graphics '09, pp. 508-513, 2009.
+    </li>
+            <li class="listitem">
+  T. Toda, K. Tsuda: BDD Construction for All Solutions SAT and Efficient Caching Mechanism, Track on Constraint Solving and Programming and Knowledge Representation and Reasoning (CSP-KR) part of the 30th Annual ACM Symposium on Applied Computing, 2015.
+    </li>
+            <li class="listitem">
+  J. Huang, A. Darwiche: <a class="ulink" href="http://dx.doi.org/10.1007/11527695_13" target="_top">Using DPLL for efficient OBDD construction</a>, In Proceedings of the 7th international conference on Theory and Applications of Satisfiability Testing, pages 157--172, 2005.
+    </li>
+            <li class="listitem">
+      Y, Crama, and P. Hammer: Boolean Functions: Theory, Algorithms, and Applications. Encyclopedia of Mathematics and its Applications. Cambridge University Press (2011).
+    </li>
+            <li class="listitem">
+      R.E. Bryant: <a class="ulink" href="http://dx.doi.org/10.1109/TC.1986.1676819" target="_top">Graph-Based algorithm for Boolean function manipulation</a>, IEEE Trans. Comput., Vol.35, pp.677-691 (1986)
+    </li>
+            <li class="listitem">
+      D.E. Knuth: The Art of Computer Programming Volume 4a, Addison-Wesley Professional, New Jersey, USA (2011)
+    </li>
+            <li class="listitem">
+F. Somenzi: <a class="ulink" href="http://vlsi.colorado.edu/~fabio/CUDD/" target="_top">CU Decision Diagram Package: Release 2.5.0.</a>, accessed on 4 September 2012.
+    </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
