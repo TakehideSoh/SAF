@@ -177,3 +177,7 @@ $ sbt assembly
 in the directory containing this repository.
 
 The `saf.jar` file can be found in the directory `target/scala-2.12/`.
+
+## Performance Evalution
+
+- SAF's performance evaluation is given in [SAF-Evaluation](https://github.com/TakehideSoh/SAF-Evaluation).
