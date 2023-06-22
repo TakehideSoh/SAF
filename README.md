@@ -5,7 +5,7 @@
 
 You can play with SAF using [the web application version of SAF](https://saf-app.herokuapp.com/).
 
-## Quick Start requiring only a Java runtime
+## Quick Start requires only a Java runtime
 
 The only requirement to run SAF is a Java Virtual Machine version 8
 or greater.  You can check your Java Runtime version using the command `java -version`
@@ -14,13 +14,13 @@ In this case, the tool is using an embedded Java SAT solver, [Sat4j](http://www.
 
 The following command will run SAF to find attractors of size less than or equal to 4. 
 
-```
+``` sh
 java -jar saf.jar -k 4 example/toy-ex.an
 ```
 
 It should return the following output:
 
-```
+``` sh
 Using Sat4j SAT Solver
 
 a,b,c,d
@@ -45,17 +45,17 @@ k: 4, #Var: 292, #Clause: 2560
 None
 ```
 
-It means that there are 6 attractors of size 1 and no attractor of size 2, 3 and 4.
+It means that there are 6 attractors of size 1 and no attractors of size 2, 3 and 4.
 
-Thanks to [BioLQM](http://colomoto.org/biolqm/), SAF can accept various network formats (e.g., an, bnet, booleannet, sbml etc.)
+Thanks to [BioLQM](http://colomoto.org/biolqm/), SAF can accept various network formats (e.g., .an, .bnet, .booleannet, .sbml etc.)
 
-```
+``` sh
 $ java -jar saf.jar -k 4 example/arellano_rootstem.bnet 
 ```
 
 It should return the following output:
 
-```
+``` sh
 Using Sat4j SAT Solver
 
 AUXINS,SHR,ARF,IAA,JKD,MGP,SCR,WOX,PLT
@@ -76,7 +76,7 @@ k: 4, #Var: 537, #Clause: 5924
 None
 ```
 
-It means that there are 4 attractors of size 1 and no attractor of size 2, 3 and 4.
+It means that there are 4 attractors of size 1 and no attractors of size 2, 3 and 4.
 
 ## Command line options
 
@@ -106,20 +106,27 @@ It is possible to use any SAT solver implementing the [IPASIR interface](https:/
 
 To compile it on a Unix system, execute the following command:
 
-```
+``` sh
 cd cadical
-./configure && make
+CXXFLAGS=-fPIC ./configure && make
 ```
 
-Then, you can find in `cadical/build/libcadical.a` the library which is used by SAF as external solver on Linux systems.
+The next execution command varies depending on OS (we consider Linux/macOS).
 
-In case you use Mac, it is needed to execute also the following command:
+``` sh
+(Linux)
+g++ -g -O3 -I. -shared -o ./build/libcadical.so `ls build/*.o | grep -v mobical`
 
-```
+(macOS)
 g++ -g -O3 -I. -dynamiclib -o ./build/libcadical.dylib `ls build/*.o | grep -v mobical`
 ```
 
-It will create the file `cadical/build/libcadical.dylib` which is used by SAF as external solver on macOS systems.
+Then,
+
+- if it's Linux, you should be able to confirm the generation of `cadical/build/libcadical.so`, and 
+- if it's Mac, you should be able to confirm the generation of `cadical/build/libcadical.dylib`.
+
+which are used by SAF as an external solver on Linux or macOS respectively.
 
 ### Install BDD_MINISAT_ALL
 
@@ -127,25 +134,25 @@ It will create the file `cadical/build/libcadical.dylib` which is used by SAF as
 
 To install it, execute the command below.
 
-```
+``` sh
 cd bdd_minisat_all-1.0.2
 make r
 ```
 
-It will produce the file `bdd_minisat_all-1.0.2/bdd_minisat_all` which can be used by SAF as external solver.
+It will produce the file `bdd_minisat_all-1.0.2/bdd_minisat_all` which can be used by SAF as an external solver.
 
 ### Launching SAF by using both CaDiCaL and BDD_MINISAT_ALL
 
 The following command will run SAF using both CaDiCaL and BDD_MINISAT_ALL.
 BDD_MINISAT_ALL will be used to enumerate singleton attractors while CaDiCal will be used to compute the remaining attractors.
 
-```
+``` sh
 $ java -jar saf.jar -k 4 -k1solver bdd_minisat_all-1.0.2/bdd_minisat_all_release -libname cadical -libpath cadical/build/ example/arellano_rootstem.bnet 
 ```
 
 It will return the output 
 
-```
+``` sh
 Using IPASIR SAT Solver and AllSAT Solver
 Libpath: cadical/build/
 Libname: cadical
@@ -168,9 +175,9 @@ None
 
 SAF is written in [Scala](https://www.scala-lang.org) and requires [sbt](https://www.scala-sbt.org) to manage its dependencies.
 
-To build SAF from source, just type
+To build SAF from its source, just type
 
-```bash
+``` sh
 $ sbt assembly
 ```
 
