@@ -139,7 +139,7 @@ cd bdd_minisat_all-1.0.2
 make r
 ```
 
-It will produce the file `bdd_minisat_all-1.0.2/bdd_minisat_all` which can be used by SAF as an external solver.
+It will produce the file `bdd_minisat_all-1.0.2/bdd_minisat_all_release` which can be used by SAF as an external solver.
 
 ### Launching SAF by using both CaDiCaL and BDD_MINISAT_ALL
 
